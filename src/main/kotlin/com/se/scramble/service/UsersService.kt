@@ -21,6 +21,9 @@ class UsersService(
         return findById(saveUsers.users_id!!)
     }
 
+    private fun UsersSaveRequestDto.toEntity(): Users =
+        Users(users_id, password, nickname)
+
     fun findById(users_id: String): UsersResponseDto {
         val users = findUsers(users_id)
         return UsersResponseDto(users.users_id!!, users.nickname)
@@ -31,8 +34,11 @@ class UsersService(
             IllegalArgumentException("Error raise at UsersRepository.findById $users_id")
         } as Users
 
-    fun idCanUsable(users_id: String): Boolean {
-        for (users: Users in usersRepository.findAll())
+    fun idCanUsable(users_id: String): Boolean =
+        usersRepository.findAll().checkIdCanUsable(users_id)
+
+    private fun List<Users>.checkIdCanUsable(users_id: String): Boolean {
+        for (users: Users in this)
             if (users.users_id == users_id)
                 return false
         return true

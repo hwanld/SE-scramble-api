@@ -43,7 +43,7 @@ class UsersController(
     fun idCanUsable(@PathVariable users_id: String): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Check if $users_id can usable for id", usersService.idCanUsable(users_id))
 
-    @GetMapping("api/users/login")
+    @PostMapping("api/users/login")
     fun login(@RequestBody usersLoginRequestDto: UsersLoginRequestDto): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Login success", usersService.login(usersLoginRequestDto))
 }

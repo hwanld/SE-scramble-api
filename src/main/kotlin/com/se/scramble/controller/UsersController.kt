@@ -18,19 +18,7 @@ import java.nio.charset.Charset
 @RestController
 class UsersController(
     private final val usersService: UsersService
-) {
-    private fun sendResponseHttpByJson(message: String, data: Any): ResponseEntity<RestAPIMessages> {
-        val restAPIMessages: RestAPIMessages = RestAPIMessages(
-            httpStatus = HttpStatus.OK,
-            message = message,
-            data = data,
-            errorCode = 0
-        )
-        val headers: HttpHeaders = HttpHeaders()
-        headers.contentType = MediaType("application", "json", Charset.forName("UTF-8"))
-        return ResponseEntity<RestAPIMessages>(restAPIMessages, headers, HttpStatus.OK)
-    }
-
+) : BaseController() {
     @PostMapping("api/users/save")
     fun save(@RequestBody usersSaveRequestDto: UsersSaveRequestDto): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("User is saved well", usersService.save(usersSaveRequestDto))
@@ -46,4 +34,8 @@ class UsersController(
     @PostMapping("api/users/login")
     fun login(@RequestBody usersLoginRequestDto: UsersLoginRequestDto): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Login success", usersService.login(usersLoginRequestDto))
+
+    @GetMapping("api/users/getProjectsList/{users_id}")
+    fun getProjectsList(@PathVariable users_id: String): ResponseEntity<RestAPIMessages> =
+        sendResponseHttpByJson("Get projectsList in users $users_id", usersService.getProjectsList(users_id))
 }

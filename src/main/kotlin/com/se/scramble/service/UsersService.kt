@@ -3,6 +3,7 @@ package com.se.scramble.service
 import com.se.scramble.domain.dto.users.UsersLoginRequestDto
 import com.se.scramble.domain.dto.users.UsersResponseDto
 import com.se.scramble.domain.dto.users.UsersSaveRequestDto
+import com.se.scramble.domain.entity.Projects
 import com.se.scramble.domain.entity.Users
 import com.se.scramble.domain.repository.UsersRepository
 import com.se.scramble.exception.FailToLoginException
@@ -29,7 +30,7 @@ class UsersService(
         return UsersResponseDto(users.users_id!!, users.nickname)
     }
 
-    private fun findUsers(users_id: String): Users =
+    fun findUsers(users_id: String): Users =
         usersRepository.findById(users_id).orElseThrow {
             IllegalArgumentException("Error raise at UsersRepository.findById $users_id")
         } as Users
@@ -51,5 +52,13 @@ class UsersService(
                     return true
 
         throw FailToLoginException("Unable to login with given information")
+    }
+
+    fun getProjectsList(users_id: String): MutableList<Long> {
+        val projectsList: MutableList<Long> = ArrayList()
+        val users = findUsers(users_id)
+        for (projects: Projects in users.projects)
+            projectsList.add(projects.projects_id!!)
+        return projectsList
     }
 }

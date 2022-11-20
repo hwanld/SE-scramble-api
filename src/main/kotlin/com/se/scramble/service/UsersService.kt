@@ -60,6 +60,7 @@ class UsersService(
         val users = findUsers(users_id)
         for (projects: Projects in users.projects)
             projectsList.add(ProjectsResponseDto(projects.projects_id!!, projects.name))
+        projectsList.sortBy { projectsResponseDto -> projectsResponseDto.projects_id }
         return projectsList
     }
 }

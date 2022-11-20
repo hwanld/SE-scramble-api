@@ -1,5 +1,6 @@
 package com.se.scramble.service
 
+import com.se.scramble.domain.dto.projects.ProjectsResponseDto
 import com.se.scramble.domain.dto.users.UsersLoginRequestDto
 import com.se.scramble.domain.dto.users.UsersResponseDto
 import com.se.scramble.domain.dto.users.UsersSaveRequestDto
@@ -54,11 +55,11 @@ class UsersService(
         throw FailToLoginException("Unable to login with given information")
     }
 
-    fun getProjectsList(users_id: String): MutableList<Long> {
-        val projectsList: MutableList<Long> = ArrayList()
+    fun getProjectsList(users_id: String): MutableList<ProjectsResponseDto> {
+        val projectsList: MutableList<ProjectsResponseDto> = ArrayList()
         val users = findUsers(users_id)
         for (projects: Projects in users.projects)
-            projectsList.add(projects.projects_id!!)
+            projectsList.add(ProjectsResponseDto(projects.projects_id!!, projects.name))
         return projectsList
     }
 }

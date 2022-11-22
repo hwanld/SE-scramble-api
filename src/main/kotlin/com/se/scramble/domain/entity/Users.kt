@@ -1,7 +1,6 @@
 package com.se.scramble.domain.entity
 
-import org.hibernate.Hibernate
-import java.util.TreeSet
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -18,7 +17,12 @@ data class Users(
     @Column
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "USERS_PROJECTS")
-    var projects: MutableSet<Projects> = TreeSet()
+    var projects: MutableSet<Projects> = TreeSet(),
+
+    @Column
+    @OneToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    var issues: MutableSet<Issues> = TreeSet()
+
 ) : Comparable<Users> {
     override fun compareTo(other: Users): Int {
         if (this.users_id!! > other.users_id!!) return 1

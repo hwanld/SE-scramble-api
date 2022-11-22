@@ -18,7 +18,10 @@ data class Projects(
     @Column
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "PROJECTS_USERS")
-    var users: MutableSet<Users> = TreeSet()
+    var users: MutableSet<Users> = TreeSet(),
+
+    @OneToMany(mappedBy = "projects", fetch = FetchType.EAGER)
+    var issues: MutableSet<Issues> = TreeSet()
 ) {
     override fun hashCode(): Int {
         return super.hashCode()

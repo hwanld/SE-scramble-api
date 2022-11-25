@@ -5,6 +5,7 @@ class IssuesResponseDto(
     val content: String,
     val deadline: String,
     val storyPoint: Int,
-    val category: String
+    val category: String,
+    val importance: Int
 ) {
 }

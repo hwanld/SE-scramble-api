@@ -34,7 +34,8 @@ class IssuesService(
             content = content,
             deadline = deadline,
             storyPoint = storyPoint,
-            category = category
+            category = category,
+            importance = importance
         )
 
     fun findById(issues_id: Long): IssuesResponseDto {
@@ -48,7 +49,8 @@ class IssuesService(
             content = this.content,
             deadline = this.deadline,
             storyPoint = this.storyPoint,
-            category = this.category
+            category = this.category,
+            importance = this.importance
         )
 
     fun findIssues(issues_id: Long): Issues =

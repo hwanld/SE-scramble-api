@@ -21,6 +21,9 @@ data class Issues(
     @Column(name = "category")
     var category: String,
 
+    @Column(name = "importance")
+    var importance: Int,
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PROJECTS_ID")
     var projects: Projects? = null,

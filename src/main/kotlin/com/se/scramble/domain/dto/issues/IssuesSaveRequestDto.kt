@@ -6,6 +6,7 @@ class IssuesSaveRequestDto(
     val storyPoint: Int = 0,
     val category: String = "예정",
     val author: String,
-    val projects_id: Long
+    val projects_id: Long,
+    val importance: Int = 1
 ) {
 }

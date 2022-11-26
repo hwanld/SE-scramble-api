@@ -7,6 +7,6 @@ class IssuesSaveRequestDto(
     val category: String = "예정",
     val author: String,
     val projects_id: Long,
-    val importance: Int = 1
+    val importance: String = "0"
 ) {
 }

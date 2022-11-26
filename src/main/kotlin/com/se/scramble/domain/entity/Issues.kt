@@ -22,7 +22,7 @@ data class Issues(
     var category: String,
 
     @Column(name = "importance")
-    var importance: Int,
+    var importance: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PROJECTS_ID")

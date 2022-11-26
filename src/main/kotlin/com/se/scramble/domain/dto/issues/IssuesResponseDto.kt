@@ -6,6 +6,6 @@ class IssuesResponseDto(
     val deadline: String,
     val storyPoint: Int,
     val category: String,
-    val importance: Int
+    val importance: String
 ) {
 }

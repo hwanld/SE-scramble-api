@@ -43,7 +43,7 @@ class IssuesService(
         return issues.toResponseDto()
     }
 
-    private fun Issues.toResponseDto(): IssuesResponseDto =
+    fun Issues.toResponseDto(): IssuesResponseDto =
         IssuesResponseDto(
             issues_id = this.issues_id!!,
             content = this.content,

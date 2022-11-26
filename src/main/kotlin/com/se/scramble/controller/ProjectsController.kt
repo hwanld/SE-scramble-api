@@ -35,4 +35,8 @@ class ProjectsController(
     fun getUsersList(@PathVariable projects_id: Long): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Get usersList in projects $projects_id", projectsService.getUsersList(projects_id))
 
+
+    @GetMapping("api/projects/getIssuesList/{projects_id}")
+    fun getIssuesList(@PathVariable projects_id: Long): ResponseEntity<RestAPIMessages> =
+        sendResponseHttpByJson("Get issuesList in projects $projects_id", projectsService.getIssuesList(projects_id))
 }

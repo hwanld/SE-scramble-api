@@ -1,7 +1,10 @@
 package com.se.scramble.service
 
+import com.se.scramble.domain.dto.issues.IssuesListWithCategoryDto
+import com.se.scramble.domain.dto.issues.IssuesResponseDto
 import com.se.scramble.domain.dto.projects.ProjectsResponseDto
 import com.se.scramble.domain.dto.projects.ProjectsSaveRequestDto
+import com.se.scramble.domain.entity.Issues
 import com.se.scramble.domain.entity.Projects
 import com.se.scramble.domain.entity.Users
 import com.se.scramble.domain.repository.ProjectsRepository
@@ -52,4 +55,38 @@ class ProjectsService(
             usersList.add(users.users_id!!)
         return usersList
     }
+
+    fun getIssuesList(projects_id: Long): MutableList<IssuesListWithCategoryDto> {
+        var returnList: MutableList<IssuesListWithCategoryDto> = ArrayList()
+        val projects = findProjects(projects_id)
+        var issuesListWithTodoDto: IssuesListWithCategoryDto = IssuesListWithCategoryDto("예정")
+        var issuesListWithInProgressDto: IssuesListWithCategoryDto = IssuesListWithCategoryDto("진행 중")
+        var issuesListWithCompletedDto: IssuesListWithCategoryDto = IssuesListWithCategoryDto("완료")
+
+        for (issues: Issues in projects.issues) {
+            val category: String = issues.category
+            val issuesResponseDto: IssuesResponseDto = issues.toResponseDto()
+            when (category) {
+                "예정" -> issuesListWithTodoDto.issuesList.add(issuesResponseDto)
+                "진행 중" -> issuesListWithInProgressDto.issuesList.add(issuesResponseDto)
+                "완료" -> issuesListWithCompletedDto.issuesList.add(issuesResponseDto)
+            }
+        }
+
+        returnList.add(issuesListWithTodoDto)
+        returnList.add(issuesListWithInProgressDto)
+        returnList.add(issuesListWithCompletedDto)
+
+        return returnList
+    }
+
+    fun Issues.toResponseDto(): IssuesResponseDto =
+        IssuesResponseDto(
+            issues_id = this.issues_id!!,
+            content = this.content,
+            deadline = this.deadline,
+            storyPoint = this.storyPoint,
+            category = this.category,
+            importance = this.importance
+        )
 }

@@ -45,7 +45,7 @@ class IssuesService(
 
     fun Issues.toResponseDto(): IssuesResponseDto =
         IssuesResponseDto(
-            issues_id = this.issues_id!!,
+            issues_id = this.issues_id!!.toString(),
             content = this.content,
             deadline = this.deadline,
             storyPoint = this.storyPoint,

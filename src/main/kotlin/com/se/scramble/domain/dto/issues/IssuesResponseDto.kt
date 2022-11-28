@@ -1,7 +1,7 @@
 package com.se.scramble.domain.dto.issues
 
 class IssuesResponseDto(
-    val issues_id: Long,
+    val issues_id: String,
     val content: String,
     val deadline: String,
     val storyPoint: Int,

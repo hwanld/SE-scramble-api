@@ -67,16 +67,45 @@ class IssuesService(
             IllegalArgumentException("Error raise at IssuesRepository")
         }
 
-    fun dragAndDrop(issuesDragAndDropDto: IssuesDragAndDropDto): Boolean {
+
+    @Transactional
+    fun dragAndDrop(issuesDragAndDropDto: IssuesDragAndDropDto): IssuesResponseDto {
         val issues = findIssues(issuesDragAndDropDto.issues_id)
-        TODO("Drag and Drop, After making index")
-        return true
+        val projects = issues.projects
+        if (issuesDragAndDropDto.past_droppableId == issuesDragAndDropDto.cur_droppableId) {
+            if (issuesDragAndDropDto.past_index > issuesDragAndDropDto.cur_index) {
+                projects!!.issues.forEach { issues ->
+                    if (issues.index >= issuesDragAndDropDto.cur_index && issues.index <= issuesDragAndDropDto.past_index && issues.category == issuesDragAndDropDto.past_droppableId)
+                        issues.index++
+                }
+                issues.index = issuesDragAndDropDto.cur_index.toLong()
+                return findById(issues.issues_id!!)
+            }
+
+            projects!!.issues.forEach { issues ->
+                if (issues.index >= issuesDragAndDropDto.past_index && issues.index <= issuesDragAndDropDto.cur_index && issues.category == issuesDragAndDropDto.cur_droppableId)
+                    issues.index--
+            }
+            issues.index = issuesDragAndDropDto.cur_index.toLong()
+            return findById(issues.issues_id!!)
+        }
+
+        projects!!.issues.forEach { issues ->
+            if (issues.category == issuesDragAndDropDto.past_droppableId && issues.index >= issuesDragAndDropDto.past_index)
+                issues.index--
+            if (issues.category == issuesDragAndDropDto.cur_droppableId && issues.index >= issuesDragAndDropDto.cur_index)
+                issues.index++
+        }
+        issues.category = issuesDragAndDropDto.cur_droppableId
+        issues.index = issuesDragAndDropDto.cur_index.toLong()
+
+        return findById(issues.issues_id!!)
     }
 
+    @Transactional
     fun update(issuesUpdateRequestDto: IssuesUpdateRequestDto): IssuesResponseDto {
         val updateIssues = findIssues(issuesUpdateRequestDto.issues_id.toLong())
         updateIssues.update(issuesUpdateRequestDto)
         return findById(updateIssues.issues_id!!)
     }
-
 }

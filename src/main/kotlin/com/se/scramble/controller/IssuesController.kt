@@ -1,6 +1,7 @@
 package com.se.scramble.controller
 
 import com.se.scramble.domain.RestAPIMessages
+import com.se.scramble.domain.dto.issues.IssuesDragAndDropDto
 import com.se.scramble.domain.dto.issues.IssuesSaveRequestDto
 import com.se.scramble.domain.dto.issues.IssuesUpdateRequestDto
 import com.se.scramble.service.IssuesService
@@ -27,4 +28,8 @@ class IssuesController(
     @PutMapping("api/issues/update")
     fun update(@RequestBody issuesUpdateRequestDto: IssuesUpdateRequestDto): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Issues is updated well", issuesService.update(issuesUpdateRequestDto))
+
+    @PutMapping("api/issues/dragAndDrop")
+    fun dragAndDrop(@RequestBody issuesDragAndDropDto: IssuesDragAndDropDto): ResponseEntity<RestAPIMessages> =
+        sendResponseHttpByJson("Drag and drop issues", issuesService.dragAndDrop(issuesDragAndDropDto))
 }

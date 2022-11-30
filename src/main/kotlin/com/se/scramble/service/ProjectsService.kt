@@ -2,6 +2,7 @@ package com.se.scramble.service
 
 import com.se.scramble.domain.dto.issues.IssuesListWithCategoryDto
 import com.se.scramble.domain.dto.issues.IssuesResponseDto
+import com.se.scramble.domain.dto.issues.IssuesResponseDtoComparator
 import com.se.scramble.domain.dto.projects.ProjectsResponseDto
 import com.se.scramble.domain.dto.projects.ProjectsSaveRequestDto
 import com.se.scramble.domain.entity.Issues
@@ -9,7 +10,10 @@ import com.se.scramble.domain.entity.Projects
 import com.se.scramble.domain.entity.Users
 import com.se.scramble.domain.repository.ProjectsRepository
 import org.springframework.stereotype.Service
+import java.util.*
+import java.util.Collections.sort
 import javax.transaction.Transactional
+import kotlin.collections.ArrayList
 
 @Service
 class ProjectsService(
@@ -73,9 +77,15 @@ class ProjectsService(
             }
         }
 
+        Collections.sort(issuesListWithTodoDto.issuesList, IssuesResponseDtoComparator())
+        Collections.sort(issuesListWithInProgressDto.issuesList, IssuesResponseDtoComparator())
+        Collections.sort(issuesListWithCompletedDto.issuesList, IssuesResponseDtoComparator())
+
         returnList.add(issuesListWithTodoDto)
         returnList.add(issuesListWithInProgressDto)
         returnList.add(issuesListWithCompletedDto)
+
+
 
         return returnList
     }

@@ -1,6 +1,6 @@
 package com.se.scramble.domain.entity
 
-import java.time.LocalDateTime
+import com.se.scramble.domain.dto.issues.IssuesUpdateRequestDto
 import javax.persistence.*
 
 @Entity
@@ -30,6 +30,16 @@ data class Issues(
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USERS_ID")
-    var users: Users? = null
+    var users: Users? = null,
+
+    @Column(name = "index")
+    var index: Long = -1
 ) {
+    public fun update(issuesUpdateRequestDto: IssuesUpdateRequestDto) {
+        this.content = issuesUpdateRequestDto.content
+        this.deadline = issuesUpdateRequestDto.deadline
+        this.storyPoint = issuesUpdateRequestDto.storyPoint
+        this.category = issuesUpdateRequestDto.category
+        this.importance = issuesUpdateRequestDto.importance
+    }
 }

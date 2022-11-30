@@ -87,6 +87,7 @@ class ProjectsService(
             deadline = this.deadline,
             storyPoint = this.storyPoint,
             category = this.category,
-            importance = this.importance
+            importance = this.importance,
+            index = this.index
         )
 }

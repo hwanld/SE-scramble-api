@@ -25,7 +25,7 @@ class IssuesService(
         projects.issues.forEach { issues: Issues ->
             if (issues.category.equals(issuesSaveRequestDto.category)) index++
         }
-        saveIssues.index = index
+        saveIssues.issueIndex = index
 
         author.issues.add(saveIssues)
         projects.issues.add(saveIssues)
@@ -59,7 +59,7 @@ class IssuesService(
             storyPoint = this.storyPoint,
             category = this.category,
             importance = this.importance,
-            index = this.index
+            index = this.issueIndex
         )
 
     fun findIssues(issues_id: Long): Issues =
@@ -75,29 +75,29 @@ class IssuesService(
         if (issuesDragAndDropDto.past_droppableId == issuesDragAndDropDto.cur_droppableId) {
             if (issuesDragAndDropDto.past_index > issuesDragAndDropDto.cur_index) {
                 projects!!.issues.forEach { issues ->
-                    if (issues.index >= issuesDragAndDropDto.cur_index && issues.index <= issuesDragAndDropDto.past_index && issues.category == issuesDragAndDropDto.past_droppableId)
-                        issues.index++
+                    if (issues.issueIndex >= issuesDragAndDropDto.cur_index && issues.issueIndex <= issuesDragAndDropDto.past_index && issues.category == issuesDragAndDropDto.past_droppableId)
+                        issues.issueIndex++
                 }
-                issues.index = issuesDragAndDropDto.cur_index.toLong()
+                issues.issueIndex = issuesDragAndDropDto.cur_index.toLong()
                 return findById(issues.issues_id!!)
             }
 
             projects!!.issues.forEach { issues ->
-                if (issues.index >= issuesDragAndDropDto.past_index && issues.index <= issuesDragAndDropDto.cur_index && issues.category == issuesDragAndDropDto.cur_droppableId)
-                    issues.index--
+                if (issues.issueIndex >= issuesDragAndDropDto.past_index && issues.issueIndex <= issuesDragAndDropDto.cur_index && issues.category == issuesDragAndDropDto.cur_droppableId)
+                    issues.issueIndex--
             }
-            issues.index = issuesDragAndDropDto.cur_index.toLong()
+            issues.issueIndex = issuesDragAndDropDto.cur_index.toLong()
             return findById(issues.issues_id!!)
         }
 
         projects!!.issues.forEach { issues ->
-            if (issues.category == issuesDragAndDropDto.past_droppableId && issues.index >= issuesDragAndDropDto.past_index)
-                issues.index--
-            if (issues.category == issuesDragAndDropDto.cur_droppableId && issues.index >= issuesDragAndDropDto.cur_index)
-                issues.index++
+            if (issues.category == issuesDragAndDropDto.past_droppableId && issues.issueIndex >= issuesDragAndDropDto.past_index)
+                issues.issueIndex--
+            if (issues.category == issuesDragAndDropDto.cur_droppableId && issues.issueIndex >= issuesDragAndDropDto.cur_index)
+                issues.issueIndex++
         }
         issues.category = issuesDragAndDropDto.cur_droppableId
-        issues.index = issuesDragAndDropDto.cur_index.toLong()
+        issues.issueIndex = issuesDragAndDropDto.cur_index.toLong()
 
         return findById(issues.issues_id!!)
     }
@@ -112,11 +112,11 @@ class IssuesService(
     @Transactional
     fun delete(issues_id: Long): Boolean {
         val targetIssues = findIssues(issues_id)
-        val targetIndex = targetIssues.index
+        val targetIndex = targetIssues.issueIndex
         val projects = targetIssues.projects
         projects!!.issues.forEach { issues ->
-            if (issues.category == targetIssues.category && issues.index >= targetIndex)
-                issues.index--
+            if (issues.category == targetIssues.category && issues.issueIndex >= targetIndex)
+                issues.issueIndex--
         }
         targetIssues.projects!!.issues.remove(targetIssues)
         targetIssues.users!!.issues.remove(targetIssues)

@@ -32,8 +32,8 @@ data class Issues(
     @JoinColumn(name = "USERS_ID")
     var users: Users? = null,
 
-    @Column(name = "index")
-    var index: Long = -1
+    @Column(name = "issueIndex")
+    var issueIndex: Long = -1
 ) {
     public fun update(issuesUpdateRequestDto: IssuesUpdateRequestDto) {
         this.content = issuesUpdateRequestDto.content

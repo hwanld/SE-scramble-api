@@ -98,6 +98,6 @@ class ProjectsService(
             storyPoint = this.storyPoint,
             category = this.category,
             importance = this.importance,
-            index = this.index
+            index = this.issueIndex
         )
 }

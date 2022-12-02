@@ -108,4 +108,20 @@ class IssuesService(
         updateIssues.update(issuesUpdateRequestDto)
         return findById(updateIssues.issues_id!!)
     }
+
+    @Transactional
+    fun delete(issues_id: Long): Boolean {
+        val targetIssues = findIssues(issues_id)
+        val targetIndex = targetIssues.index
+        val projects = targetIssues.projects
+        projects!!.issues.forEach { issues ->
+            if (issues.category == targetIssues.category && issues.index >= targetIndex)
+                issues.index--
+        }
+        targetIssues.projects!!.issues.remove(targetIssues)
+        targetIssues.users!!.issues.remove(targetIssues)
+
+        issuesRepository.delete(targetIssues)
+        return true
+    }
 }

@@ -6,6 +6,7 @@ import com.se.scramble.domain.dto.issues.IssuesSaveRequestDto
 import com.se.scramble.domain.dto.issues.IssuesUpdateRequestDto
 import com.se.scramble.service.IssuesService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -32,4 +33,8 @@ class IssuesController(
     @PutMapping("api/issues/dragAndDrop")
     fun dragAndDrop(@RequestBody issuesDragAndDropDto: IssuesDragAndDropDto): ResponseEntity<RestAPIMessages> =
         sendResponseHttpByJson("Drag and drop issues", issuesService.dragAndDrop(issuesDragAndDropDto))
+
+    @DeleteMapping("api/issues/delete/{issues_id}")
+    fun delete(@PathVariable issues_id: String) =
+        sendResponseHttpByJson("Delete issues with id : $issues_id", issuesService.delete(issues_id.toLong()))
 }

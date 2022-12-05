@@ -1,5 +1,6 @@
 package com.se.scramble.controller
 
+import com.se.scramble.config.WebMvcConfig
 import com.se.scramble.domain.RestAPIMessages
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
